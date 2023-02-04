@@ -1,12 +1,26 @@
 from fastapi import FastAPI, Request, routing
 from mongodb import db_connection
 import openai
-
+from fastapi.middleware.cors import CORSMiddleware
 # Load your API key from an environment variable or secret management service
 openai.api_key = "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"
 
 
 app = FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+    "http://localhost:8000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post("/")
 async def input(request: Request):
